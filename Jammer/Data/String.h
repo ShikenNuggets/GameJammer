@@ -29,6 +29,7 @@ namespace Jammer{
 		String operator +(const char* str_) const{
 			String finalStr = *this;
 			finalStr.Append(str_);
+			return finalStr;
 		}
 
 		String operator +(const String& str_) const{
@@ -46,6 +47,7 @@ namespace Jammer{
 
 		constexpr size_t Length() const{ return data.Size() - 1; }
 		constexpr bool IsEmpty() const{ return data.Size() == 1 && data[0] == '\0'; }
+		constexpr const char* CStr() const{ return &data[0]; }
 
 	private:
 		Array<char> data;

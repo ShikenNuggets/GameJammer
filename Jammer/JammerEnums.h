@@ -5,7 +5,7 @@
 #include <xutility>
 
 namespace Jammer{
-	constexpr enum class ErrorCode : uint32_t{
+	enum class ErrorCode : uint32_t{
 		OK = 0,
 		Unknown = 1,
 

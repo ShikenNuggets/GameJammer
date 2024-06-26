@@ -20,8 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="Data\Debug.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
+    <ClCompile Include="Debug.cpp" />
   </ItemGroup>
 </Project>
