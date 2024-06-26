@@ -11,6 +11,28 @@ namespace Jammer{
 			data = new T[capacity];
 		}
 
+		Array(const Array<T>& array_) : data(nullptr), size(0), capacity(array_.capacity){
+			data = new T[capacity];
+			for(size_t i = 0; i < array_.Size(); i++){
+				Add(array_[i]);
+			}
+		}
+
+		constexpr Array<T>& operator=(const Array<T>& other_){
+			if(data != nullptr){
+				delete[] data;
+				size = 0;
+			}
+
+			capacity = other_.Capacity();
+			data = new T[capacity];
+			for(size_t i = 0; i < other_.Size(); i++){
+				Add(other_[i]);
+			}
+
+			return *this;
+		}
+
 		~Array(){
 			delete[] data;
 		}
