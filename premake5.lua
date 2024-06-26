@@ -76,24 +76,30 @@ function JammerExternalIncludes()
 	includedirs
 	{
 		"%{prj.name}/",
+		"SDK/Glad/include",
+		"SDK/SDL2/include",
+		"SDK/SDL2_image/include",
 	}
 end
 
 function JammerExternalLibDirs()
 	libdirs
 	{
+		"SDK/Glad/lib/%{cfg.buildcfg}/",
+		"SDK/SDL2/lib/x64/",
+		"SDK/SDL2_image/lib/x64/",
 	}
 end
 
 function JammerExternalLibs(options)
-	dependson
-	{
-	}
-
 	options = options or {}
 	if options.linkLibs then
 		links
 		{
+			"Glad.lib",
+			"SDL2.lib",
+			"SDL2main.lib",
+			"SDL2_image.lib",
 		}
 	end
 
@@ -154,11 +160,6 @@ project "Jammer"
 	JammerExternalIncludes()
 	JammerExternalLibDirs()
 	JammerExternalLibs()
-	
-	filter "system:windows"
-		postbuildcommands
-		{
-		}
 		
 	filter "configurations:Release"
 		symbols "Off"
@@ -180,6 +181,9 @@ project "Game"
 	filter "system:windows"
 		postbuildcommands
 		{
+			"echo D|xcopy \"$(SolutionDir)SDK\\SDL2\\lib\\x64\\*.dll\" \"$(TargetDir)\" /y /E /d",
+			"echo D|xcopy \"$(SolutionDir)SDK\\SDL2_image\\lib\\x64\\*.dll\" \"$(TargetDir)\" /y /E /d",
+			"echo D|xcopy \"$(SolutionDir)SDK\\SDL2_image\\lib\\x64\\optional\\*.dll\" \"$(TargetDir)\" /y /E /d",
 			"echo D|xcopy \"$(SolutionDir)Resources\\\" \"$(TargetDir)Resources\\\" /y /E /d",
 		}
 		
