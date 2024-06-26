@@ -15,6 +15,7 @@
     </ClInclude>
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Jammer.h" />
+    <ClInclude Include="JammerEnums.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
