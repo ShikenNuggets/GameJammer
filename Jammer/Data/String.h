@@ -26,6 +26,11 @@ namespace Jammer{
 			Append(&str_.data[0]);
 		}
 
+		String operator +(const char* str_) const{
+			String finalStr = *this;
+			finalStr.Append(str_);
+		}
+
 		String operator +(const String& str_) const{
 			String finalStr = *this;
 			finalStr.Append(str_);
@@ -46,12 +51,18 @@ namespace Jammer{
 		Array<char> data;
 	};
 
-	constexpr std::ostream& operator <<(std::ostream& os_, const String& str_){
+	constexpr inline std::ostream& operator <<(std::ostream& os_, const String& str_){
 		for(size_t i = 0; i < str_.Length(); i++){
 			os_ << str_[i];
 		}
 
 		return os_;
+	}
+
+	inline String operator +(const char* str1_, const String& str2_){
+		String str = String(str1_);
+		str.Append(str2_);
+		return str;
 	}
 }
 
