@@ -6,12 +6,189 @@
 #pragma warning(default : 26819)
 
 #include "Debug.h"
+#include "JammerEnums.h"
 
 using namespace Jammer;
 
-App::App(){}
+App::App(const String& gameName_) : gameName(gameName_), sdlWindow(nullptr), isRunning(false){
+	if(SDL_Init(SDL_INIT_EVERYTHING) > 0){
+		JTHROW_FATAL_ERROR("SDL could not be initialized! SDL Error: " + String(SDL_GetError()), ErrorCode::SDL_Error);
+	}
+
+	Uint32 windowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL;
+	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+
+	sdlWindow = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, windowFlags);
+	if(sdlWindow == nullptr){
+		JTHROW_FATAL_ERROR("Could not create SDL Window! SDL Error: " + String(SDL_GetError()), ErrorCode::SDL_Error);
+	}
+
+	SDL_JoystickEventState(SDL_ENABLE);
+
+	glContext = SDL_GL_CreateContext(sdlWindow);
+	if(glContext == nullptr){
+		JTHROW_FATAL_ERROR("Could not create OpenGL Context! SDL Error: " + String(SDL_GetError()), ErrorCode::SDL_Error);
+	}
+
+	int status = SDL_GL_SetSwapInterval(-1); //Adaptive sync
+	if(status != 0){
+		SDL_GL_SetSwapInterval(1); //Adaptive sync not supported, try again with regular vsync
+	}
+
+	if(!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)){
+		JTHROW_FATAL_ERROR("Failed to initialize Glad!", ErrorCode::OpenGL_Error);
+	}
+
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glDepthFunc(GL_LESS);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	SDL_GL_SwapWindow(sdlWindow);
+
+#ifdef JAMMER_DEBUG
+	if(glDebugMessageCallback){
+		glEnable(GL_DEBUG_OUTPUT);
+		glDebugMessageCallback((GLDEBUGPROC)App::GLDebugCallback, nullptr);
+		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, true);
+	}else{
+		JLOG_WARNING("Could not set up OpenGL callback, OpenGL issues will not be logged!");
+	}
+#endif //JAMMER_DEBUG
+}
+
+App::~App(){
+	SDL_GL_DeleteContext(glContext);
+	SDL_DestroyWindow(sdlWindow);
+}
 
 void App::Run(){
-	JLOG("Test");
-	SDL_Init(SDL_INIT_EVERYTHING);
+	isRunning = true;
+
+	while(isRunning){
+		HandleEvents();
+		Update();
+		Render();
+	}
+}
+
+void App::HandleEvents(){
+	SDL_Event e;
+	while(SDL_PollEvent(&e) != 0){
+		switch(e.type){
+			case SDL_QUIT:
+				isRunning = false;
+				return;
+			case SDL_WINDOWEVENT: [[fallthrough]];
+			case SDL_KEYDOWN: [[fallthrough]];
+			case SDL_KEYUP: [[fallthrough]];
+			case SDL_MOUSEMOTION: [[fallthrough]];
+			case SDL_MOUSEBUTTONDOWN: [[fallthrough]];
+			case SDL_MOUSEBUTTONUP: [[fallthrough]];
+			case SDL_MOUSEWHEEL: [[fallthrough]];
+			case SDL_JOYDEVICEADDED: [[fallthrough]];
+			case SDL_JOYDEVICEREMOVED: [[fallthrough]];
+			case SDL_JOYAXISMOTION: [[fallthrough]];
+			case SDL_JOYBUTTONDOWN: [[fallthrough]];
+			case SDL_JOYBUTTONUP: [[fallthrough]];
+			case SDL_JOYHATMOTION:
+				break;
+			default:
+				break;
+		}
+	}
+}
+
+void App::Update(){
+
+}
+
+void App::Render(){
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	//Render Here
+
+	SDL_GL_SwapWindow(sdlWindow);
+}
+
+void __stdcall App::GLDebugCallback(GLenum source_, GLenum type_, GLuint id_, GLenum severity_, GLsizei, const GLchar* message_, const void*){
+	//Suppress useless messages
+	switch(id_){
+		case 131169: [[fallthrough]];	//The driver allocated storage for renderbuffer - This should not be considered a warning
+		case 131185:					//Buffer object will use VIDEO memory - Irrelevant
+			return;
+		default:
+			break;
+	}
+
+	String finalMessage = "OpenGL ";
+
+	switch(source_){
+		case GL_DEBUG_SOURCE_API:
+			finalMessage += "API ";
+			break;
+		case GL_DEBUG_SOURCE_WINDOW_SYSTEM:
+			finalMessage += "Window System ";
+			break;
+		case GL_DEBUG_SOURCE_THIRD_PARTY:
+			finalMessage += "Third Party ";
+			break;
+		case GL_DEBUG_SOURCE_APPLICATION:
+			finalMessage += "Application ";
+			break;
+		case GL_DEBUG_SOURCE_OTHER:
+			break;
+		default:
+			break;
+	}
+
+	switch(type_){
+		case GL_DEBUG_TYPE_ERROR:
+			finalMessage += "Error";
+			break;
+		case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
+			finalMessage += "Deprecated Behaviour";
+			break;
+		case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
+			finalMessage += "Undefined Behaviour";
+			break;
+		case GL_DEBUG_TYPE_PORTABILITY:
+			finalMessage += "Portability";
+			break;
+		case GL_DEBUG_TYPE_PERFORMANCE:
+			finalMessage += "Performance";
+			break;
+		case GL_DEBUG_TYPE_MARKER:
+			finalMessage += "Marker";
+			break;
+		case GL_DEBUG_TYPE_PUSH_GROUP:
+			finalMessage += "Push Group";
+			break;
+		case GL_DEBUG_TYPE_POP_GROUP:
+			finalMessage += "Pop Group";
+			break;
+		case GL_DEBUG_TYPE_OTHER: [[fallthrough]];
+		default:
+			finalMessage += "Other";
+			break;
+	}
+
+	finalMessage += id_ + ": " + String(static_cast<const char*>(message_));
+
+	switch(severity_){
+		case GL_DEBUG_SEVERITY_HIGH:
+			Debug::LogError(finalMessage);
+			break;
+		case GL_DEBUG_SEVERITY_MEDIUM:
+			Debug::LogWarning(finalMessage);
+			break;
+		case GL_DEBUG_SEVERITY_LOW: [[fallthrough]];
+		case GL_DEBUG_SEVERITY_NOTIFICATION:
+			Debug::Log(finalMessage);
+			break;
+	}
 }

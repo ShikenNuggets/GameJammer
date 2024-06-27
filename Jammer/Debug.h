@@ -29,6 +29,11 @@ namespace Jammer{
 	#define JLOG_ERROR(message) Jammer::Debug::Log(message, __FILE__, __LINE__)
 #endif //!JLOG_ERROR
 
+#ifndef JTHROW_FATAL_ERROR
+	//This WILL crash the game! Only use this for completely unrecoverable error cases
+	#define JTHROW_FATAL_ERROR(message, error) Jammer::Debug::ThrowFatalError(message, error, __FILE__, __LINE__);
+#endif //!JTHROW_FATAL_ERROR
+
 #if defined JAMMER_DEBUG && defined JAMMER_PLATFORM_WIN32 && !defined J_ASSERT
 	#define J_ASSERT(expr, msg) { if(!(expr)){ int result = Jammer::Debug::PopupAssertErrorMessage(msg); if(result > 0){ __debugbreak(); } } }
 #endif //JAMMER_DEBUG && JAMMER_PLATFORM_WIN32
@@ -38,7 +43,12 @@ namespace Jammer{
 	#define J_ASSERT(expr, msg)
 #endif //GADGET_RELEASE || !GADGET_PLATFORM_WIN32
 
-#define J_BASIC_ASSERT(expr) J_ASSERT(expr, "Condition Failed: " ## #expr)
-#define J_ASSERT_NOT_IMPLEMENTED J_ASSERT(false, "Case not implemented - Ask a dev!")
+#ifndef J_BASIC_ASSERT
+	#define J_BASIC_ASSERT(expr) J_ASSERT(expr, "Condition Failed: " ## #expr)
+#endif //!J_BASIC_ASSERT
+
+#ifndef J_ASSERT_NOT_IMPLEMENTED
+	#define J_ASSERT_NOT_IMPLEMENTED J_ASSERT(false, "Case not implemented - Ask a dev!")
+#endif //!J_ASSERT_NOT_IMPLEMENTED
 
 #endif //!JAMMER_DEBUG_H
