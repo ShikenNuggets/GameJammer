@@ -22,11 +22,11 @@ namespace Jammer{
 #endif //!JLOG
 
 #ifndef JLOG_WARNING
-	#define JLOG_WARNING(message) Jammer::Debug::Log(message, __FILE__, __LINE__)
+	#define JLOG_WARNING(message) Jammer::Debug::LogWarning(message, __FILE__, __LINE__)
 #endif //!JLOG_WARNING
 
 #ifndef JLOG_ERROR
-	#define JLOG_ERROR(message) Jammer::Debug::Log(message, __FILE__, __LINE__)
+	#define JLOG_ERROR(message) Jammer::Debug::LogError(message, __FILE__, __LINE__)
 #endif //!JLOG_ERROR
 
 #ifndef JTHROW_FATAL_ERROR

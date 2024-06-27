@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include <ShlObj_core.h>
+
 //Hide warnings from external code that we can't/won't modify - WNF
 #pragma warning(disable : 26819) //Unnanotated fallthrough in switch statement
 #include <SDL_messagebox.h>
@@ -11,6 +13,7 @@ using namespace Jammer;
 
 constexpr const char* logFileName = "log.txt";
 bool gHasWrittenToFile = false;
+const HANDLE gConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 void Debug::Log(const String& message_, const String& fileName_, int lineNumber_){
 	std::cout << message_;
@@ -29,11 +32,19 @@ void Debug::Log(const String& message_, const String& fileName_, int lineNumber_
 }
 
 void Debug::LogWarning(const String& message_, const String& fileName_, int lineNumber_){
+	if(gConsole){ SetConsoleTextAttribute(gConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY); }
+
 	Debug::Log("WARNING: " + message_, fileName_, lineNumber_);
+
+	if(gConsole){ SetConsoleTextAttribute(gConsole, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED); }
 }
 
 void Debug::LogError(const String& message_, const String& fileName_, int lineNumber_){
+	if(gConsole){ SetConsoleTextAttribute(gConsole, FOREGROUND_RED | FOREGROUND_INTENSITY); }
+
 	Debug::Log("ERROR: " + message_, fileName_, lineNumber_);
+
+	if(gConsole){ SetConsoleTextAttribute(gConsole, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED); }
 }
 
 int Debug::PopupAssertErrorMessage(const String& message_){
