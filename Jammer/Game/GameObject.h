@@ -1,7 +1,11 @@
 #ifndef JAMMER_GAME_OBJECT_H
 #define JAMMER_GAME_OBJECT_H
 
+#include "Audio/AudioSource.h"
+#include "Game/PlayComponent.h"
+#include "Graphics/Renderable.h"
 #include "Math/Vector.h"
+#include "Physics/PhysicsBody.h"
 
 namespace Jammer{
 	struct Transform{
@@ -21,6 +25,11 @@ namespace Jammer{
 	private:
 		String name;
 		Transform transform;
+
+		AudioSource* audioSource;
+		PlayComponent* playComponent;
+		Renderable* renderable;
+		PhysicsBody* physicsBody;
 	};
 }
 

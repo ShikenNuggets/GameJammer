@@ -155,14 +155,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="Audio\AudioSource.h" />
     <ClInclude Include="Data\Array.h" />
     <ClInclude Include="Data\String.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Game\GameObject.h" />
+    <ClInclude Include="Game\PlayComponent.h" />
+    <ClInclude Include="Graphics\Renderable.h" />
     <ClInclude Include="Jammer.h" />
     <ClInclude Include="JammerEnums.h" />
     <ClInclude Include="Math\Math.h" />
     <ClInclude Include="Math\Vector.h" />
+    <ClInclude Include="Physics\PhysicsBody.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
