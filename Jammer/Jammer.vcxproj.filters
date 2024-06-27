@@ -20,6 +20,9 @@
       <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="Game\GameObject.h">
+      <Filter>Game</Filter>
+    </ClInclude>
     <ClInclude Include="Jammer.h" />
     <ClInclude Include="JammerEnums.h" />
     <ClInclude Include="Math\Math.h">
@@ -33,5 +36,8 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="Game\GameObject.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
