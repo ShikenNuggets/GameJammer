@@ -7,6 +7,7 @@
 
 #include "Debug.h"
 #include "JammerEnums.h"
+#include "Timer.h"
 
 using namespace Jammer;
 
@@ -69,10 +70,17 @@ App::~App(){
 void App::Run(){
 	isRunning = true;
 
+	Timer timer;
+	timer.Start();
+
 	while(isRunning){
+		timer.Update();
+
 		HandleEvents();
 		Update();
 		Render();
+
+		timer.Delay();
 	}
 }
 

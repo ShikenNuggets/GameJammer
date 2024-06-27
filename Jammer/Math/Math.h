@@ -24,6 +24,17 @@ namespace Jammer{
 
 			return a_ / b_;
 		}
+
+		template <class T>
+		static inline constexpr T Clamp(T value_, T min_ = 0, T max_ = 0){
+			if(value_ < min_){
+				return min_;
+			}else if(value_ > max_){
+				return max_;
+			}
+
+			return value_;
+		}
 	}
 }
 
