@@ -26,6 +26,20 @@ namespace Jammer{
 			Append(&str_.data[0]);
 		}
 
+		void Append(char c_){
+			data.Reserve(data.Size() + 1);
+
+			data.Pop();
+			data.Add(c_);
+			data.Add('\0');
+		}
+
+		void AppendInt(int32_t number_){
+			char buffer[10]{};
+			_itoa_s(number_, buffer, 10);
+			Append(buffer);
+		}
+
 		String operator +(const char* str_) const{
 			String finalStr = *this;
 			finalStr.Append(str_);
@@ -37,13 +51,23 @@ namespace Jammer{
 			finalStr.Append(str_);
 		}
 
-		constexpr char operator[](size_t i_) const{
-			return data[i_];
+		String operator +(char c_) const{
+			String finalStr = *this;
+			finalStr.Append(c_);
 		}
 
-		constexpr char& operator[](size_t i_){
-			return data[i_];
+		String operator +(int32_t number_) const{
+			String finalStr = *this;
+			finalStr.AppendInt(number_);
 		}
+
+		void operator +=(const char* str_){ Append(str_); }
+		void operator +=(const String& str_){ Append(str_); }
+		void operator +=(char c_){ Append(c_); }
+		void operator +=(int32_t number_){ AppendInt(number_); }
+
+		constexpr char operator[](size_t i_) const{ return data[i_]; }
+		constexpr char& operator[](size_t i_){ return data[i_]; }
 
 		constexpr size_t Length() const{ return data.Size() - 1; }
 		constexpr bool IsEmpty() const{ return data.Size() == 1 && data[0] == '\0'; }
