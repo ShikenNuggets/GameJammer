@@ -9,7 +9,7 @@ namespace Jammer{
 	public:
 		SharedPtr(std::nullptr_t) : object(nullptr), refCount(nullptr){}
 
-		SharedPtr(T* object_) : object(object_), refCount(new ReferenceCount()){
+		explicit SharedPtr(T* object_) : object(object_), refCount(new ReferenceCount()){
 			J_BASIC_ASSERT(refCount != nullptr);
 			refCount->Increment();
 		}
@@ -47,6 +47,12 @@ namespace Jammer{
 
 		T& operator*(){ return *object; }
 		T* operator->(){ return object; }
+
+		template <class T2>
+		T2* As() const{
+			static_assert(std::is_base_of<T, T2>(), "As() type must be derived from SharedPtr type");
+			return dynamic_cast<T2*>(object);
+		}
 
 		bool HasReferences() const{
 			J_BASIC_ASSERT(refCount == nullptr || refCount->HasReferences());

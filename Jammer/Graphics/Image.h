@@ -14,6 +14,8 @@ namespace Jammer{
 		Image(const String& path_);
 		~Image();
 
+		SDL_Surface* GetSurface() const{ return imageSurface; }
+
 	private:
 		SDL_Surface* imageSurface;
 	};

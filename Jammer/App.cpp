@@ -8,6 +8,7 @@
 #include "Debug.h"
 #include "JammerEnums.h"
 #include "Timer.h"
+#include "Graphics/Image.h"
 
 using namespace Jammer;
 
@@ -122,11 +123,15 @@ void App::Update(){
 }
 
 void App::Render(){
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//Render Here
+	auto img = resourceManager.GetResource("TestImage");
+	SDL_BlitSurface(img.As<Image>()->GetSurface(), nullptr, sdlScreenSurface, nullptr);
 
-	SDL_GL_SwapWindow(sdlWindow);
+	SDL_UpdateWindowSurface(sdlWindow);
+
+	//SDL_GL_SwapWindow(sdlWindow);
 }
 
 void __stdcall App::GLDebugCallback(GLenum source_, GLenum type_, GLuint id_, GLenum severity_, GLsizei, const GLchar* message_, const void*){

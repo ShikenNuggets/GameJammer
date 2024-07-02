@@ -19,6 +19,8 @@ namespace Jammer{
 
 		void Run();
 
+		ResourceManager& GetResourceManager(){ return resourceManager; }
+
 	private:
 		String gameName;
 		SDL_Window* sdlWindow;

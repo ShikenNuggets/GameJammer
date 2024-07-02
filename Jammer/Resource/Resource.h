@@ -17,11 +17,11 @@ namespace Jammer{
 		virtual ~ResourceContainer() = default;
 
 		SharedPtr<Resource> GetResource(){
-			if(resource.HasReferences()){
-				return resource;
+			if(!resource.HasReferences()){
+				resource = SharedPtr<Resource>(LoadResource());
 			}
 
-			resource = SharedPtr<Resource>(LoadResource());
+			return resource;
 		}
 
 		String Name() const{ return name; }
