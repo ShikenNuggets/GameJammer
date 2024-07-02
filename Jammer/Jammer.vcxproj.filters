@@ -64,6 +64,9 @@
     <ClInclude Include="Memory\SharedPtr.h">
       <Filter>Memory</Filter>
     </ClInclude>
+    <ClInclude Include="Memory\UniquePtr.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
     <ClInclude Include="Memory\WeakPtr.h">
       <Filter>Memory</Filter>
     </ClInclude>
