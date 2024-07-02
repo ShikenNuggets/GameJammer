@@ -20,7 +20,7 @@ namespace Jammer{
 		}
 
 		virtual ~SharedPtr(){
-			J_ASSERT((refCount == nullptr && object == nullptr) || (refCount != nullptr && refCount != nullptr), "If refCount or object is null, the other MUST be null");
+			J_ASSERT((refCount == nullptr && object == nullptr) || (refCount != nullptr && object != nullptr), "If refCount or object is null, the other MUST be null");
 			if(refCount == nullptr){
 				return;
 			}
