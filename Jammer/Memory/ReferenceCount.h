@@ -8,27 +8,33 @@
 namespace Jammer{
 	class ReferenceCount{
 	public:
-		ReferenceCount() : count(0){}
+		ReferenceCount() : count(0), weakCount(0){}
 
-		void Increment(){
-			count++;
-		}
+		void Increment(){ count++; }
+		void IncrementWeakCount(){ weakCount++; }
 
 		void Decrement(){
 			J_BASIC_ASSERT(count > 0);
-			if(count == 0){
-				return;
+			if(count != 0){
+				count--;
 			}
 
-			count--;
+			if(count == 0 && weakCount == 0){
+				delete this; //This looks scary, but it's intentional
+				return; //Redundant, but *absolutely nothing* should happen after deletion
+			}
 		}
 
-		void operator ++(){
-			Increment();
-		}
+		void DecrementWeakCount(){
+			J_BASIC_ASSERT(weakCount > 0);
+			if(weakCount != 0){
+				weakCount--;
+			}
 
-		void operator --(){
-			Decrement();
+			if(count == 0 && weakCount == 0){
+				delete this; //This looks scary, but it's intentional
+				return; //Redundant, but *absolutely nothing* should happen after deletion
+			}
 		}
 
 		size_t Count() const{ return count; }
@@ -36,6 +42,7 @@ namespace Jammer{
 
 	private:
 		std::atomic<size_t> count;
+		std::atomic<size_t> weakCount;
 	};
 }
 
