@@ -7,16 +7,16 @@ namespace Jammer{
 	template <class T>
 	class SharedPtr{
 	public:
-		SharedPtr() : object(nullptr), refCount(nullptr){}
+		SharedPtr(std::nullptr_t) : object(nullptr), refCount(nullptr){}
 
 		SharedPtr(T* object_) : object(object_), refCount(new ReferenceCount()){
 			J_BASIC_ASSERT(refCount != nullptr);
-			*refCount++;
+			(*refCount)++;
 		}
 
 		SharedPtr(const SharedPtr<T>& other_) : object(other_.object), refCount(other_.refCount){
 			J_BASIC_ASSERT(refCount != nullptr);
-			*refCount++;
+			(*refCount)++;
 		}
 
 		virtual ~SharedPtr(){
@@ -30,7 +30,7 @@ namespace Jammer{
 
 		SharedPtr& operator=(const SharedPtr<T>& other_){
 			if(this == &other_){
-				return;
+				return *this;
 			}
 
 			DecrementReferenceCountAndCleanup();
@@ -39,7 +39,7 @@ namespace Jammer{
 			refCount = other_.refCount;
 
 			if(refCount != nullptr){
-				*refCount++;
+				(*refCount)++;
 			}
 
 			return *this;
@@ -47,6 +47,11 @@ namespace Jammer{
 
 		T& operator*(){ return *object; }
 		T* operator->(){ return object; }
+
+		bool HasReferences() const{
+			J_BASIC_ASSERT(refCount == nullptr || refCount->HasReferences());
+			return refCount != nullptr;
+		}
 
 	private:
 		T* object;
@@ -57,7 +62,7 @@ namespace Jammer{
 				return;
 			}
 
-			*refCount--;
+			(*refCount)--;
 			if(!refCount->HasReferences()){
 				delete refCount;
 				refCount = nullptr;
