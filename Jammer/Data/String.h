@@ -61,6 +61,20 @@ namespace Jammer{
 			finalStr.AppendInt(number_);
 		}
 
+		bool operator ==(const String& other_) const{
+			if(Length() != other_.Length()){
+				return false;
+			}
+
+			for(size_t i = 0; i < Length(); i++){
+				if(data[i] != other_[i]){
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		void operator +=(const char* str_){ Append(str_); }
 		void operator +=(const String& str_){ Append(str_); }
 		void operator +=(char c_){ Append(c_); }
