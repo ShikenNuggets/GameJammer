@@ -11,7 +11,7 @@
 
 using namespace Jammer;
 
-App::App(const String& gameName_) : gameName(gameName_), sdlWindow(nullptr), isRunning(false){
+App::App(const String& gameName_) : gameName(gameName_), sdlWindow(nullptr), sdlScreenSurface(nullptr), glContext(nullptr), resourceManager(), isRunning(false){
 	if(SDL_Init(SDL_INIT_EVERYTHING) > 0){
 		JTHROW_FATAL_ERROR("SDL could not be initialized! SDL Error: " + String(SDL_GetError()), ErrorCode::SDL_Error);
 	}
@@ -24,6 +24,11 @@ App::App(const String& gameName_) : gameName(gameName_), sdlWindow(nullptr), isR
 	sdlWindow = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, windowFlags);
 	if(sdlWindow == nullptr){
 		JTHROW_FATAL_ERROR("Could not create SDL Window! SDL Error: " + String(SDL_GetError()), ErrorCode::SDL_Error);
+	}
+
+	sdlScreenSurface = SDL_GetWindowSurface(sdlWindow);
+	if(sdlScreenSurface == nullptr){
+		JTHROW_FATAL_ERROR("Could not get SDL Window Surface! SDL Error: " + String(SDL_GetError()), ErrorCode::SDL_Error);
 	}
 
 	SDL_JoystickEventState(SDL_ENABLE);
@@ -64,6 +69,7 @@ App::App(const String& gameName_) : gameName(gameName_), sdlWindow(nullptr), isR
 
 App::~App(){
 	SDL_GL_DeleteContext(glContext);
+	sdlScreenSurface = nullptr; //Window owns the screen surface
 	SDL_DestroyWindow(sdlWindow);
 }
 

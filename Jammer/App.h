@@ -9,6 +9,7 @@
 #pragma warning(default : 26819)
 
 #include "Data/String.h"
+#include "Resource/ResourceManager.h"
 
 namespace Jammer{
 	class App{
@@ -21,7 +22,9 @@ namespace Jammer{
 	private:
 		String gameName;
 		SDL_Window* sdlWindow;
+		SDL_Surface* sdlScreenSurface;
 		SDL_GLContext glContext;
+		ResourceManager resourceManager;
 		bool isRunning;
 
 		void HandleEvents();
