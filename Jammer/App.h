@@ -8,8 +8,13 @@
 #include <SDL.h>
 #pragma warning(default : 26819)
 
+#include "Audio/AudioSource.h"
 #include "Data/String.h"
+#include "Game/GameObject.h"
+#include "Game/PlayComponent.h"
+#include "Graphics/Renderable.h"
 #include "Memory/UniquePtr.h"
+#include "Physics/PhysicsBody.h"
 #include "Resource/ResourceManager.h"
 
 namespace Jammer{
@@ -28,6 +33,9 @@ namespace Jammer{
 
 		void Run();
 
+		Renderable* AddRenderable(GameObject* parent_, const String& image_);
+		void RemoveRenderable(Renderable* renderable_);
+
 		ResourceManager& GetResourceManager(){ return resourceManager; }
 		int16_t GetPixelScale() const{ return pixelScale; }
 
@@ -44,6 +52,8 @@ namespace Jammer{
 		ResourceManager resourceManager;
 		int16_t pixelScale = 100; //100 pixels = 1 meter
 		bool isRunning;
+
+		Array<Renderable*> renderables;
 
 		void HandleEvents();
 		void Update();

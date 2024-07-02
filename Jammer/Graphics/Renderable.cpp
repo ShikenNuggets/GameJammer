@@ -5,6 +5,8 @@
 
 using namespace Jammer;
 
+Renderable::Renderable() : parent(nullptr), image(nullptr), imagePtr(nullptr){}
+
 Renderable::Renderable(GameObject* parent_, const String& imageName_) : parent(parent_), image(nullptr), imagePtr(nullptr){
 	image = App::GetInstance().GetResourceManager().GetResource(imageName_);
 	J_BASIC_ASSERT(image != nullptr);

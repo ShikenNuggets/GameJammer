@@ -8,6 +8,7 @@ namespace Jammer{
 
 	class Renderable{
 	public:
+		Renderable();
 		Renderable(GameObject* parent_, const String& imageName_);
 		~Renderable() = default;
 

@@ -58,11 +58,29 @@ namespace Jammer{
 		}
 
 		constexpr void Pop(size_t elementsToPop = 1){
+			for(size_t i = size - 1; i > size - elementsToPop; i--){
+				data[i].~T();
+			}
+
 			if(size - elementsToPop < 0){
 				size = 0;
 			}else{
 				size -= elementsToPop;
 			}
+		}
+
+		constexpr void RemoveAt(size_t index_){
+			if(index_ >= size){
+				return;
+			}
+
+			data[index_].~T();
+
+			for(size_t i = index_; i < size - 1; i++){
+				data[i] = data[i + 1];
+			}
+
+			size--;
 		}
 
 		void Reserve(size_t newCapacity_){

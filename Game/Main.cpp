@@ -14,6 +14,9 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]){
 
 		app.SetWindowName("TestGame");
 		app.GetResourceManager().AddResource(new Jammer::ImageContainer("TestImage", "Resources/Test.png"));
+
+		Jammer::GameObject* gameObject = new Jammer::GameObject("TestObj");
+		gameObject->AddRenderable("TestImage");
 		
 		app.Run();
 

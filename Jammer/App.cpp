@@ -140,13 +140,32 @@ void App::Update(){
 void App::Render(){
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//Render Here
-	auto img = resourceManager.GetResource("TestImage");
-	SDL_BlitSurface(img.As<Image>()->GetSurface(), nullptr, sdlScreenSurface, nullptr);
+	for(size_t i = 0; i < renderables.Size(); i++){
+		if(renderables[i] == nullptr){
+			JLOG_WARNING("One of the listed Renderables was nullptr!");
+			continue;
+		}
+
+		renderables[i]->Render(sdlWindow);
+	}
 
 	SDL_UpdateWindowSurface(sdlWindow);
 
 	//SDL_GL_SwapWindow(sdlWindow);
+}
+
+Renderable* App::AddRenderable(GameObject* parent_, const String& imageName_){
+	renderables.Add(new Renderable(parent_, imageName_));
+	return renderables[renderables.Size() - 1];
+}
+
+void App::RemoveRenderable(Renderable* renderable_){
+	for(int i = 0; i < renderables.Size(); i++){
+		if(renderables[i] == renderable_){
+			renderables.RemoveAt(i);
+			return;
+		}
+	}
 }
 
 void App::SetWindowName(const String& name_){

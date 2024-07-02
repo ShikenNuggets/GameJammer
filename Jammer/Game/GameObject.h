@@ -19,9 +19,12 @@ namespace Jammer{
 	class GameObject{
 	public:
 		GameObject(const String& name_);
+		virtual ~GameObject();
 
 		void Update(float deltaTime_);
 
+		void AddRenderable(const String& imageName_);
+		
 		Vector2 Position() const{ return transform.position; }
 		float Rotation() const{ return transform.rotation; }
 		Vector2 Scale() const{ return transform.scale; }
