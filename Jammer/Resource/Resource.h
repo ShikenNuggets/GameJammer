@@ -29,7 +29,7 @@ namespace Jammer{
 		bool HasReferences() const{ return resource.HasReferences(); }
 
 	protected:
-		virtual Resource* LoadResource() = 0;
+		virtual Resource* LoadResource() const = 0;
 
 	private:
 		String name;

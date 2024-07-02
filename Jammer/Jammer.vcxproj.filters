@@ -44,6 +44,9 @@
     <ClInclude Include="Game\PlayComponent.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\Image.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="Graphics\Renderable.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -78,6 +81,9 @@
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Game\GameObject.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Image.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Resource\ResourceManager.cpp">
       <Filter>Resource</Filter>
