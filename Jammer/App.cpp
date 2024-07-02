@@ -12,7 +12,22 @@
 
 using namespace Jammer;
 
-App::App(const String& gameName_) : gameName(gameName_), sdlWindow(nullptr), sdlScreenSurface(nullptr), glContext(nullptr), resourceManager(), isRunning(false){
+UniquePtr<App> App::instance = UniquePtr<App>(nullptr);
+
+App& App::GetInstance(){
+	if(instance.Get() == nullptr){
+		instance.AssignPtr(new App());
+	}
+
+	J_ASSERT(instance.Get() != nullptr, "App instance was somehow nullptr!");
+	return *instance.Get();
+}
+
+void App::DeleteInstance(){
+	instance.Reset();
+}
+
+App::App() : gameName("GameJammer"), sdlWindow(nullptr), sdlScreenSurface(nullptr), glContext(nullptr), resourceManager(), isRunning(false){
 	if(SDL_Init(SDL_INIT_EVERYTHING) > 0){
 		JTHROW_FATAL_ERROR("SDL could not be initialized! SDL Error: " + String(SDL_GetError()), ErrorCode::SDL_Error);
 	}
@@ -132,6 +147,13 @@ void App::Render(){
 	SDL_UpdateWindowSurface(sdlWindow);
 
 	//SDL_GL_SwapWindow(sdlWindow);
+}
+
+void App::SetWindowName(const String& name_){
+	gameName = name_;
+	if(sdlWindow != nullptr){
+		SDL_SetWindowTitle(sdlWindow, gameName.CStr());
+	}
 }
 
 void __stdcall App::GLDebugCallback(GLenum source_, GLenum type_, GLuint id_, GLenum severity_, GLsizei, const GLchar* message_, const void*){

@@ -9,19 +9,32 @@
 #pragma warning(default : 26819)
 
 #include "Data/String.h"
+#include "Memory/UniquePtr.h"
 #include "Resource/ResourceManager.h"
 
 namespace Jammer{
 	class App{
 	public:
-		App(const String& gameName_);
+		App();
 		~App();
+
+		App(const App&) = delete;
+		App(const App&&) = delete;
+		App& operator=(const App&) = delete;
+		App& operator=(const App&&) = delete;
+
+		static App& GetInstance();
+		static void DeleteInstance();
 
 		void Run();
 
 		ResourceManager& GetResourceManager(){ return resourceManager; }
 
+		void SetWindowName(const String& name_);
+
 	private:
+		static UniquePtr<App> instance;
+
 		String gameName;
 		SDL_Window* sdlWindow;
 		SDL_Surface* sdlScreenSurface;
