@@ -16,6 +16,9 @@
     <Filter Include="Math">
       <UniqueIdentifier>{AFF4887C-9B2B-8A0D-4418-7010302E060F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{BE94DDC2-AA36-0899-93F1-1BED7F328FE9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Physics">
       <UniqueIdentifier>{888B590D-F46A-D8A8-FD82-637F69E13E0A}</UniqueIdentifier>
     </Filter>
@@ -51,6 +54,12 @@
     </ClInclude>
     <ClInclude Include="Math\Vector.h">
       <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory\ReferenceCount.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory\SharedPtr.h">
+      <Filter>Memory</Filter>
     </ClInclude>
     <ClInclude Include="Physics\PhysicsBody.h">
       <Filter>Physics</Filter>
