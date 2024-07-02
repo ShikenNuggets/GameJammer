@@ -35,6 +35,14 @@ namespace Jammer{
 
 			return value_;
 		}
+
+		static inline constexpr int32_t Round(double num_){
+			if(num_ < 0.0){
+				return static_cast<int32_t>(num_ - 0.5);
+			}
+
+			return static_cast<int32_t>(num_ + 0.5);
+		}
 	}
 }
 

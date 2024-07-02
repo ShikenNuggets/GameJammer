@@ -95,5 +95,6 @@
       <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Graphics\Renderable.cpp" />
   </ItemGroup>
 </Project>

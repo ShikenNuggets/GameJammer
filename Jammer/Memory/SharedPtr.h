@@ -87,7 +87,7 @@ namespace Jammer{
 			}
 		}
 
-		friend WeakPtr;
+		friend WeakPtr<T>;
 	};
 }
 

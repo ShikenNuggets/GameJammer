@@ -9,7 +9,7 @@
 
 namespace Jammer{
 	struct Transform{
-		constexpr Transform(const Vector2& pos_, float rot_ = 0.0f, const Vector2& scale_ = Vector2::Fill(0.0f)) : position(pos_), rotation(rot_), scale(scale_){}
+		constexpr Transform(const Vector2& pos_, float rot_ = 0.0f, const Vector2& scale_ = Vector2::Fill(1.0f)) : position(pos_), rotation(rot_), scale(scale_){}
 
 		Vector2 position;
 		float rotation;
@@ -21,6 +21,10 @@ namespace Jammer{
 		GameObject(const String& name_);
 
 		void Update(float deltaTime_);
+
+		Vector2 Position() const{ return transform.position; }
+		float Rotation() const{ return transform.rotation; }
+		Vector2 Scale() const{ return transform.scale; }
 
 	private:
 		String name;

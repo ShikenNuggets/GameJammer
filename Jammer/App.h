@@ -29,8 +29,10 @@ namespace Jammer{
 		void Run();
 
 		ResourceManager& GetResourceManager(){ return resourceManager; }
+		int16_t GetPixelScale() const{ return pixelScale; }
 
 		void SetWindowName(const String& name_);
+		void SetPixelScale(const int16_t pixelScale_);
 
 	private:
 		static UniquePtr<App> instance;
@@ -40,6 +42,7 @@ namespace Jammer{
 		SDL_Surface* sdlScreenSurface;
 		SDL_GLContext glContext;
 		ResourceManager resourceManager;
+		int16_t pixelScale = 100; //100 pixels = 1 meter
 		bool isRunning;
 
 		void HandleEvents();

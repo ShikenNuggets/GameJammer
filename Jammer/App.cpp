@@ -156,6 +156,17 @@ void App::SetWindowName(const String& name_){
 	}
 }
 
+void App::SetPixelScale(int16_t pixelScale_){
+	J_ASSERT(pixelScale_ != 0, "Pixel scale cannot be zero");
+	if(pixelScale_ == 0){
+		return;
+	}else if(pixelScale_ < 0){
+		JLOG_WARNING(String("Pixel scale is a negative number [") + pixelScale_ + "], is this intended?");
+	}
+
+	pixelScale = pixelScale_;
+}
+
 void __stdcall App::GLDebugCallback(GLenum source_, GLenum type_, GLuint id_, GLenum severity_, GLsizei, const GLchar* message_, const void*){
 	//Suppress useless messages
 	switch(id_){
