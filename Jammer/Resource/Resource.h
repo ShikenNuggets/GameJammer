@@ -3,6 +3,7 @@
 
 #include "Data/String.h"
 #include "Memory/SharedPtr.h"
+#include "Memory/WeakPtr.h"
 
 namespace Jammer{
 	class Resource{
@@ -13,20 +14,21 @@ namespace Jammer{
 
 	class ResourceContainer{
 	public:
-		ResourceContainer(const String& name_, const String& path_) : name(name_), path(path_), resource(nullptr){}
+		ResourceContainer(const String& name_, const String& path_) : name(name_), path(path_), resource(){}
 		virtual ~ResourceContainer() = default;
 
 		SharedPtr<Resource> GetResource(){
-			if(!resource.HasReferences()){
-				resource = SharedPtr<Resource>(LoadResource());
+			SharedPtr<Resource> resPtr = resource.Lock();
+			if(resPtr == nullptr){
+				resPtr = SharedPtr<Resource>(LoadResource());
 			}
 
-			return resource;
+			return resPtr;
 		}
 
 		String Name() const{ return name; }
 		String Path() const{ return path; }
-		bool HasReferences() const{ return resource.HasReferences(); }
+		bool HasReferences() const{ return resource.IsValid(); }
 
 	protected:
 		virtual Resource* LoadResource() const = 0;
@@ -34,7 +36,7 @@ namespace Jammer{
 	private:
 		String name;
 		String path;
-		SharedPtr<Resource> resource;
+		WeakPtr<Resource> resource;
 	};
 }
 

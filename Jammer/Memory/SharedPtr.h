@@ -5,6 +5,9 @@
 
 namespace Jammer{
 	template <class T>
+	class WeakPtr;
+
+	template <class T>
 	class SharedPtr{
 	public:
 		SharedPtr(std::nullptr_t) : object(nullptr), refCount(nullptr){}
@@ -50,6 +53,8 @@ namespace Jammer{
 			return *this;
 		}
 
+		constexpr bool operator==(T* other_) const{ return object == other_; }
+
 		T& operator*(){ return *object; }
 		T* operator->(){ return object; }
 
@@ -72,14 +77,17 @@ namespace Jammer{
 			if(refCount == nullptr){
 				return;
 			}
-
+			
+			size_t oldReferenceCount = refCount->Count();
 			refCount->Decrement();
-			if(!refCount->HasReferences()){
+			if(oldReferenceCount == 1){
 				delete object;
 				object = nullptr;
 				refCount = nullptr; //Reference count deletes itself
 			}
 		}
+
+		friend WeakPtr;
 	};
 }
 

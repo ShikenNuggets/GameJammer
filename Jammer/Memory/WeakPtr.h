@@ -8,7 +8,7 @@ namespace Jammer{
 	template <class T>
 	class WeakPtr{
 	public:
-		WeakPtr() = delete;
+		WeakPtr() : object(nullptr), refCount(nullptr){}
 
 		WeakPtr(const SharedPtr<T>& other_) : object(other_.object), refCount(other_.refCount){
 			J_BASIC_ASSERT(refCount != nullptr);
@@ -22,12 +22,14 @@ namespace Jammer{
 		}
 
 		SharedPtr<T> Lock(){
-			if(refCount == nullptr || !refCount->HasReferences()){
+			if(!IsValid()){
 				return SharedPtr<T>(nullptr);
 			}
 
 			return SharedPtr<T>(object, refCount);
 		}
+
+		bool IsValid() const{ return refCount != nullptr && refCount->HasReferences(); }
 
 	private:
 		T* object;
