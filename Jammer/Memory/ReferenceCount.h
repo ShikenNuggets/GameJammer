@@ -1,6 +1,8 @@
 #ifndef JAMMER_MEMORY_REFERENCE_COUNT_H
 #define JAMMER_MEMORY_REFERENCE_COUNT_H
 
+#include <atomic>
+
 #include "Debug.h"
 
 namespace Jammer{
@@ -33,7 +35,7 @@ namespace Jammer{
 		bool HasReferences() const{ return count > 0; }
 
 	private:
-		size_t count;
+		std::atomic<size_t> count;
 	};
 }
 
