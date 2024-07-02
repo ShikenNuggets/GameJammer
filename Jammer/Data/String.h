@@ -49,16 +49,19 @@ namespace Jammer{
 		String operator +(const String& str_) const{
 			String finalStr = *this;
 			finalStr.Append(str_);
+			return finalStr;
 		}
 
 		String operator +(char c_) const{
 			String finalStr = *this;
 			finalStr.Append(c_);
+			return finalStr;
 		}
 
 		String operator +(int32_t number_) const{
 			String finalStr = *this;
 			finalStr.AppendInt(number_);
+			return finalStr;
 		}
 
 		bool operator ==(const String& other_) const{
