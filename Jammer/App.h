@@ -37,6 +37,9 @@ namespace Jammer{
 		Renderable* AddRenderable(GameObject* parent_, const String& image_);
 		void RemoveRenderable(Renderable* renderable_);
 
+		void AddCustomPlayComponent(PlayComponent* playComp_);
+		void RemovePlayComponent(PlayComponent* playComp_);
+
 		ResourceManager& GetResourceManager(){ return resourceManager; }
 		int16_t GetPixelScale() const{ return pixelScale; }
 
@@ -55,6 +58,7 @@ namespace Jammer{
 		bool isRunning;
 
 		List<Renderable> renderables;
+		List<PlayComponent*> playComps;
 
 		void HandleEvents();
 		void Update();

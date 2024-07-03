@@ -162,12 +162,24 @@ Renderable* App::AddRenderable(GameObject* parent_, const String& imageName_){
 }
 
 void App::RemoveRenderable(Renderable* renderable_){
+	J_BASIC_ASSERT(renderable_ != nullptr);
+
 	for(const auto& i : renderables){
 		if(&i->value == renderable_){
 			renderables.Remove(i);
 			return;
 		}
 	}
+}
+
+void App::AddCustomPlayComponent(PlayComponent* playComp_){
+	J_BASIC_ASSERT(playComp_ != nullptr);
+	playComps.Add(playComp_);
+	J_BASIC_ASSERT(renderables.Back() != nullptr);
+}
+
+void App::RemovePlayComponent(PlayComponent* playComp_){
+	playComps.Remove(playComp_);
 }
 
 void App::SetWindowName(const String& name_){

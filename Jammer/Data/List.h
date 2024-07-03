@@ -94,6 +94,31 @@ namespace Jammer{
 			}
 		}
 
+		constexpr inline void Remove(const T& value_){
+			if(IsEmpty()){
+				return;
+			}
+
+			if(head->value == value_){
+				Node* oldHead = head;
+				head = head->next;
+				delete oldHead;
+			}else if(tail->value == value_){
+				Pop();
+				return;
+			}
+
+			Node* prev = head;
+			Node* cur = head->next;
+			while(cur != nullptr){
+				if(cur->value == value_){
+					prev->next = cur->next;
+					delete cur;
+					return;
+				}
+			}
+		}
+
 		constexpr inline size_t Size() const{ return size; }
 		constexpr inline bool IsEmpty() const{ return size == 0; }
 		constexpr inline Node* Front(){ return head; }
