@@ -140,13 +140,14 @@ void App::Update(){
 void App::Render(){
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	for(size_t i = 0; i < renderables.Size(); i++){
-		if(renderables[i] == nullptr){
-			JLOG_WARNING("One of the listed Renderables was nullptr!");
+	for(const auto& i : renderables){
+		J_BASIC_ASSERT(i != nullptr);
+		if(i == nullptr){
+			JLOG_WARNING("Renderable linked list contains a nullptr!");
 			continue;
 		}
 
-		renderables[i]->Render(sdlWindow);
+		i->value.Render(sdlWindow);
 	}
 
 	SDL_UpdateWindowSurface(sdlWindow);
@@ -155,14 +156,15 @@ void App::Render(){
 }
 
 Renderable* App::AddRenderable(GameObject* parent_, const String& imageName_){
-	renderables.Add(new Renderable(parent_, imageName_));
-	return renderables[renderables.Size() - 1];
+	renderables.Add(Renderable(parent_, imageName_));
+	J_BASIC_ASSERT(renderables.Back() != nullptr);
+	return &renderables.Back()->value;
 }
 
 void App::RemoveRenderable(Renderable* renderable_){
-	for(int i = 0; i < renderables.Size(); i++){
-		if(renderables[i] == renderable_){
-			renderables.RemoveAt(i);
+	for(const auto& i : renderables){
+		if(&i->value == renderable_){
+			renderables.Remove(i);
 			return;
 		}
 	}

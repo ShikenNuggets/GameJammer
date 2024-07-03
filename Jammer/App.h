@@ -10,6 +10,7 @@
 
 #include "Audio/AudioSource.h"
 #include "Data/String.h"
+#include "Data/List.h"
 #include "Game/GameObject.h"
 #include "Game/PlayComponent.h"
 #include "Graphics/Renderable.h"
@@ -53,7 +54,7 @@ namespace Jammer{
 		int16_t pixelScale = 100; //100 pixels = 1 meter
 		bool isRunning;
 
-		Array<Renderable*> renderables;
+		List<Renderable> renderables;
 
 		void HandleEvents();
 		void Update();

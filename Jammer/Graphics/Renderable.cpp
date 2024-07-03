@@ -15,7 +15,7 @@ Renderable::Renderable(GameObject* parent_, const String& imageName_) : parent(p
 	J_BASIC_ASSERT(imagePtr);
 }
 
-void Renderable::Render(SDL_Window* window_){
+void Renderable::Render(SDL_Window* window_) const{
 	J_BASIC_ASSERT(imagePtr != nullptr);
 	J_BASIC_ASSERT(parent != nullptr);
 	J_BASIC_ASSERT(window_ != nullptr);

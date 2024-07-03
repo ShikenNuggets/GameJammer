@@ -12,7 +12,7 @@ namespace Jammer{
 		Renderable(GameObject* parent_, const String& imageName_);
 		~Renderable() = default;
 
-		void Render(SDL_Window* window_);
+		void Render(SDL_Window* window_) const;
 
 	private:
 		GameObject* parent;
