@@ -34,6 +34,9 @@
     <ClInclude Include="Data\Array.h">
       <Filter>Data</Filter>
     </ClInclude>
+    <ClInclude Include="Data\List.h">
+      <Filter>Data</Filter>
+    </ClInclude>
     <ClInclude Include="Data\String.h">
       <Filter>Data</Filter>
     </ClInclude>
@@ -91,10 +94,12 @@
     <ClCompile Include="Graphics\Image.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\Renderable.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="Resource\ResourceManager.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="Graphics\Renderable.cpp" />
   </ItemGroup>
 </Project>
