@@ -164,6 +164,8 @@
     <ClInclude Include="Game\PlayComponent.h" />
     <ClInclude Include="Graphics\Image.h" />
     <ClInclude Include="Graphics\Renderable.h" />
+    <ClInclude Include="Input\Input.h" />
+    <ClInclude Include="Input\InputEnums.h" />
     <ClInclude Include="Jammer.h" />
     <ClInclude Include="JammerEnums.h" />
     <ClInclude Include="Math\Math.h" />
@@ -184,6 +186,7 @@
     <ClCompile Include="Game\GameObject.cpp" />
     <ClCompile Include="Graphics\Image.cpp" />
     <ClCompile Include="Graphics\Renderable.cpp" />
+    <ClCompile Include="Input\InputEnums.cpp" />
     <ClCompile Include="Resource\ResourceManager.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
