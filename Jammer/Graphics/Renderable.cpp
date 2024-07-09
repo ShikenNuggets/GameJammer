@@ -16,7 +16,7 @@ Renderable::Renderable(GameObject* parent_, const String& imageName_) : parent(p
 }
 
 void Renderable::Render(SDL_Window* window_) const{
-	J_BASIC_ASSERT(imagePtr != nullptr);
+	J_BASIC_ASSERT(imagePtr != nullptr && imagePtr->GetSurface() != nullptr);
 	J_BASIC_ASSERT(parent != nullptr);
 	J_BASIC_ASSERT(window_ != nullptr);
 
@@ -36,8 +36,8 @@ void Renderable::Render(SDL_Window* window_) const{
 	}
 
 	SDL_Rect destRect{};
-	destRect.x = Math::Round(parent->Position().x * static_cast<double>(App::GetInstance().GetPixelScale()));
-	destRect.y = Math::Round(parent->Position().y * static_cast<double>(App::GetInstance().GetPixelScale()));
+	destRect.x = Math::Round(parent->Position().x * static_cast<double>(App::GetInstance().GetPixelScale()) - (imagePtr->GetSurface()->w * parent->Scale().x / 2));
+	destRect.y = Math::Round(parent->Position().y * static_cast<double>(App::GetInstance().GetPixelScale()) - (imagePtr->GetSurface()->h * parent->Scale().y / 2));
 
 	SDL_BlitSurface(imagePtr->GetSurface(), nullptr, SDL_GetWindowSurface(window_), &destRect);
 }
