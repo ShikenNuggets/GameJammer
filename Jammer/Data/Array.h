@@ -100,9 +100,9 @@ namespace Jammer{
 			return data[i_];
 		}
 
-		constexpr size_t Size() const{ return size; }
-		constexpr bool IsEmpty() const{ return size == 0; }
-		constexpr size_t Capacity() const{ return capacity; }
+		constexpr inline size_t Size() const{ return size; }
+		constexpr inline bool IsEmpty() const{ return size == 0; }
+		constexpr inline size_t Capacity() const{ return capacity; }
 
 	private:
 		T* data;

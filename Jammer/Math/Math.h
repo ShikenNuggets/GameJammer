@@ -43,6 +43,31 @@ namespace Jammer{
 
 			return static_cast<int32_t>(num_ + 0.5);
 		}
+
+		static inline constexpr bool IsPrime(uint64_t num_){
+			if(num_ <= 1){
+				return false;
+			}
+
+			double sqrtNum = sqrt(num_);
+			for(uint64_t i = 2; i < sqrtNum; i++){
+				if(num_ % i == 0){
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		static inline constexpr uint64_t NextPrime(uint64_t start_){
+			for(uint64_t i = start_ + 1; i < std::numeric_limits<uint64_t>::max(); i++){
+				if(IsPrime(i)){
+					return i;
+				}
+			}
+
+			return 0;
+		}
 	}
 }
 
